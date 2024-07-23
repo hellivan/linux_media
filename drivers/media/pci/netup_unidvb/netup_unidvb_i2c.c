@@ -41,6 +41,8 @@
 /* FIFO size */
 #define FIFO_SIZE	16
 
+#define I2C_CLASS_SPD (1<<7)
+
 struct netup_i2c_fifo_regs {
 	union {
 		__u8	data8;
