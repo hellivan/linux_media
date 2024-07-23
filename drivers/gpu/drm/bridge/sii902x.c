@@ -1062,7 +1062,7 @@ static int sii902x_init(struct sii902x *sii902x)
 		return -ENOMEM;
 
 	sii902x->i2cmux->priv = sii902x;
-	return i2c_mux_add_adapter(sii902x->i2cmux, 0, 0, 0);
+	return i2c_mux_add_adapter(sii902x->i2cmux, 0, 0);
 }
 
 static int sii902x_probe(struct i2c_client *client)
