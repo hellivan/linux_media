@@ -143,6 +143,24 @@ static void videobuf_dma_contig_user_put(struct videobuf_dma_contig_memory *mem)
 	mem->size = 0;
 }
 
+int follow_pfn(struct vm_area_struct *vma, unsigned long address,
+	unsigned long *pfn)
+{
+	int ret = -EINVAL;
+	spinlock_t *ptl;
+	pte_t *ptep;
+
+	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+		return ret;
+
+	ret = follow_pte(vma->vm_mm, address, &ptep, &ptl);
+	if (ret)
+		return ret;
+	*pfn = pte_pfn(ptep_get(ptep));
+	pte_unmap_unlock(ptep, ptl);
+	return 0;
+}
+
 /**
  * videobuf_dma_contig_user_get() - setup user space memory pointer
  * @mem: per-buffer private videobuf-dma-contig data
